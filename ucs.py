@@ -1,5 +1,5 @@
 class Person:
-    def __init__(self, name=None, parent=None, summedComfortVal=None):
+    def __init__(self, name, parent, summedComfortVal):
         self.name = name
         self.parent = parent
         self.summedComfortVal = summedComfortVal
