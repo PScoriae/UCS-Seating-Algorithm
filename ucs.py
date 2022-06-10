@@ -32,6 +32,7 @@ def ucs(pairComfort, initialPerson, numOfPersons):
         children = expandAndReturnChildren(pairComfort, frontier[0])
 
         seated.append(frontier[0])
+        frontier = []
 
         for child in children:
             if child.name in [s.name for s in seated]:
