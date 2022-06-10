@@ -37,6 +37,21 @@ def getPersons(pairComfort):
 
     return persons
 
+def findSeatingArrangement(pairComfort):
+    possibleSeating = []
+    persons = getPersons(pairComfort)
+
+    for personName in persons:
+        seatedNames, overallComfortValue = ucs(pairComfort, personName, len(persons))
+        possibleSeating.append([seatedNames, overallComfortValue])
+
+    possibleSeating.sort(key=lambda x: x[1], reverse=True)
+
+    optimalArrangement = possibleSeating[0][0]
+    optimalOverallComfortVal = possibleSeating[0][1]
+
+    return optimalArrangement, optimalOverallComfortVal
+
 
 def ucs(pairComfort, initialPerson, numOfPersons):
     frontier = []
@@ -73,19 +88,6 @@ def ucs(pairComfort, initialPerson, numOfPersons):
     return seatedNames, overallComfortValue
 
 
-def findSeatingArrangement(pairComfort):
-    possibleSeating = []
-    persons = getPersons(pairComfort)
-
-    for personName in persons:
-        seatedNames, overallComfortValue = ucs(pairComfort, personName, len(persons))
-        possibleSeating.append([seatedNames, overallComfortValue])
-
-    possibleSeating.sort(key=lambda x: x[1], reverse=True)
-
-    return possibleSeating[0]
-
-
 if __name__ == "__main__":
     pairComfort = [
         ["a", "b", -5],
@@ -100,4 +102,7 @@ if __name__ == "__main__":
         ["d", "e", 5],
     ]
 
-    print(findSeatingArrangement(pairComfort))
+    optimalArrangement, optimalOverallComfortVal = findSeatingArrangement(pairComfort)
+
+    print(f'Optimal Arrangement: {optimalArrangement}')
+    print(f'Overall Comfort Value: {optimalOverallComfortVal}')
