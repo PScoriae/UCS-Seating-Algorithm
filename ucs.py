@@ -19,6 +19,25 @@ def getChildren(pairComfort, currentPerson):
     return children
 
 
+def getCost(pairComfort, name0, name1):
+    for [m, n, c] in pairComfort:
+        if [name0, name1] == [m, n] or [name1, name0] == [m, n]:
+            return c
+
+
+def getPersons(pairComfort):
+    persons = []
+    for [name0, name1, c] in pairComfort:
+        if name0 not in persons:
+            persons.append(name0)
+        elif name1 not in persons:
+            persons.append(name1)
+        else:
+            continue
+
+    return persons
+
+
 def ucs(pairComfort, initialPerson, numOfPersons):
     frontier = []
     seated = []
@@ -54,23 +73,17 @@ def ucs(pairComfort, initialPerson, numOfPersons):
     return seatedNames, overallComfortValue
 
 
-def getCost(pairComfort, name0, name1):
-    for [m, n, c] in pairComfort:
-        if [name0, name1] == [m, n] or [name1, name0] == [m, n]:
-            return c
+def findSeatingArrangement(pairComfort):
+    possibleSeating = []
+    persons = getPersons(pairComfort)
 
+    for personName in persons:
+        seatedNames, overallComfortValue = ucs(pairComfort, personName, len(persons))
+        possibleSeating.append([seatedNames, overallComfortValue])
 
-def getPersons(pairComfort):
-    persons = []
-    for [name0, name1, c] in pairComfort:
-        if name0 not in persons:
-            persons.append(name0)
-        elif name1 not in persons:
-            persons.append(name1)
-        else:
-            continue
+    possibleSeating.sort(key=lambda x: x[1], reverse=True)
 
-    return persons
+    return possibleSeating[0]
 
 
 if __name__ == "__main__":
@@ -87,16 +100,4 @@ if __name__ == "__main__":
         ["d", "e", 5],
     ]
 
-    numOfPersons = 5
-
-    persons = getPersons(pairComfort)
-
-    possibleSeating = []
-
-    for personName in persons:
-        seatedNames, overallComfortValue = ucs(pairComfort, personName, numOfPersons)
-        possibleSeating.append([seatedNames, overallComfortValue])
-
-    possibleSeating.sort(key=lambda x: x[1], reverse=True)
-
-    print(possibleSeating[0])
+    print(findSeatingArrangement(pairComfort))
