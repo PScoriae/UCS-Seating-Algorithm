@@ -29,7 +29,7 @@ def ucs(pairComfort, initialPerson, numOfPersons):
             break
         frontier.sort(key=lambda x: x.summedComfortVal, reverse=True)
 
-        children = expandAndReturnChildren(pairComfort, frontier[0])
+        children = getChildren(pairComfort, frontier[0])
 
         seated.append(frontier[0])
         frontier = []
