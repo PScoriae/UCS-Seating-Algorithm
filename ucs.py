@@ -5,7 +5,7 @@ class Person:
         self.summedComfortVal = summedComfortVal
 
 
-def expandAndReturnChildren(pairComfort, currentPerson):
+def getChildren(pairComfort, currentPerson):
     children = []
     for [m, n, c] in pairComfort:
         if m == currentPerson.name:
