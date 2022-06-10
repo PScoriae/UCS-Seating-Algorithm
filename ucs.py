@@ -37,8 +37,9 @@ def getPersons(pairComfort):
 
     return persons
 
-def findSeatingArrangement(pairComfort):
+def findSeatingArrangements(pairComfort):
     possibleSeating = []
+    bestSeating = []
     persons = getPersons(pairComfort)
 
     for personName in persons:
@@ -47,10 +48,11 @@ def findSeatingArrangement(pairComfort):
 
     possibleSeating.sort(key=lambda x: x[1], reverse=True)
 
-    optimalArrangement = possibleSeating[0][0]
-    optimalOverallComfortVal = possibleSeating[0][1]
+    for [a, b] in possibleSeating:
+        if possibleSeating[0][1] == b:
+            bestSeating.append([a, b])
 
-    return optimalArrangement, optimalOverallComfortVal
+    return bestSeating
 
 
 def ucs(pairComfort, initialPerson, numOfPersons):
@@ -90,19 +92,18 @@ def ucs(pairComfort, initialPerson, numOfPersons):
 
 if __name__ == "__main__":
     pairComfort = [
-        ["a", "b", -5],
-        ["a", "c", -4],
-        ["a", "d", -3],
-        ["a", "e", -2],
-        ["b", "c", -1],
+        ["a", "b", 3],
+        ["a", "c", -1],
+        ["a", "d", -2],
+        ["a", "e", 5],
+        ["b", "c", -2],
         ["b", "d", 1],
-        ["b", "e", 2],
-        ["c", "d", 3],
-        ["c", "e", 4],
+        ["b", "e", -4],
+        ["c", "d", -1],
+        ["c", "e", -5],
         ["d", "e", 5],
     ]
 
-    optimalArrangement, optimalOverallComfortVal = findSeatingArrangement(pairComfort)
+    bestSeating = findSeatingArrangements(pairComfort)
 
-    print(f'Optimal Arrangement: {optimalArrangement}')
-    print(f'Overall Comfort Value: {optimalOverallComfortVal}')
+    print(f'Optimal Arrangement: {bestSeating}')
