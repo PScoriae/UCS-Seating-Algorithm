@@ -44,10 +44,14 @@ def ucs(pairComfort, initialPerson, numOfPersons):
         print("Frontier:", [f.name for f in frontier])
         print("Children:", [c.name for c in children])
         print("")
-    print(
-        seated[-1].summedComfortVal
-        + getCost(pairComfort, initialPerson, seated[-1].name)
+
+    overallComfortValue = seated[-1].summedComfortVal + getCost(
+        pairComfort, initialPerson, seated[-1].name
     )
+
+    seatedNames = [x.name for x in seated]
+
+    return seatedNames, overallComfortValue
 
 
 def getCost(pairComfort, name0, name1):
@@ -70,19 +74,6 @@ def getPersons(pairComfort):
 
 
 if __name__ == "__main__":
-    #     pairComfort = [
-    #     ['a', 'b', -1],
-    #     ['a', 'c', 2],
-    #     ['a', 'd', -1],
-    #     ['a', 'e', 0],
-    #     ['b', 'c', -1],
-    #     ['b', 'd', 5],
-    #     ['b', 'e', 4],
-    #     ['c', 'd', -1],
-    #     ['c', 'e', 3],
-    #     ['d', 'e', 2],
-    # ]
-
     pairComfort = [
         ["a", "b", -5],
         ["a", "c", -4],
@@ -98,4 +89,14 @@ if __name__ == "__main__":
 
     numOfPersons = 5
 
-    ucs(pairComfort, "e", numOfPersons)
+    persons = getPersons(pairComfort)
+
+    possibleSeating = []
+
+    for personName in persons:
+        seatedNames, overallComfortValue = ucs(pairComfort, personName, numOfPersons)
+        possibleSeating.append([seatedNames, overallComfortValue])
+
+    possibleSeating.sort(key=lambda x: x[1], reverse=True)
+
+    print(possibleSeating[0])
