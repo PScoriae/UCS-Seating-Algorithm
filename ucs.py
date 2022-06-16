@@ -1,9 +1,11 @@
+import string
+import random
+
 class Person:
     def __init__(self, name, parent, summedComfortVal):
         self.name = name
         self.parent = parent
         self.summedComfortVal = summedComfortVal
-
 
 def getChildren(pairComfort, currentPerson):
     children = []
@@ -18,12 +20,10 @@ def getChildren(pairComfort, currentPerson):
             )
     return children
 
-
 def getCost(pairComfort, name0, name1):
     for [m, n, c] in pairComfort:
         if [name0, name1] == [m, n] or [name1, name0] == [m, n]:
             return c
-
 
 def getPersons(pairComfort):
     persons = []
@@ -54,6 +54,20 @@ def findSeatingArrangements(pairComfort):
 
     return bestSeating
 
+def generateComfortMatrix(numOfPersons):
+    oneWayPairComforts = []
+    personNames = string.ascii_uppercase
+    for i in range(numOfPersons):
+        for j in range(numOfPersons):
+            oneWayPair = []
+            oneWayPair.append(personNames[i])
+            if j == i:
+                continue
+            oneWayPair.append(personNames[j])
+            oneWayPair.append(random.randint(-5, 5))
+            oneWayPairComforts.append(oneWayPair)
+
+    return oneWayPairComforts
 
 def ucs(pairComfort, initialPerson, numOfPersons):
     frontier = []
@@ -89,7 +103,6 @@ def ucs(pairComfort, initialPerson, numOfPersons):
 
     return seatedNames, overallComfortValue
 
-
 if __name__ == "__main__":
     pairComfort = [
         ["a", "b", 3],
@@ -107,3 +120,5 @@ if __name__ == "__main__":
     bestSeating = findSeatingArrangements(pairComfort)
 
     print(f'Optimal Arrangement: {bestSeating}')
+
+print(generateComfortMatrix(12))
