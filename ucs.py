@@ -1,5 +1,6 @@
 import string
 import random
+import sys
 
 class Person:
     def __init__(self, name, parent, summedComfortVal):
@@ -56,7 +57,7 @@ def findSeatingArrangements(pairComfort):
 
 def getOneWayComfortMatrix(numOfPersons):
     oneWayPairComforts = []
-    personNames = string.ascii_uppercase
+    personNames = string.ascii_letters
     for i in range(numOfPersons):
         for j in range(numOfPersons):
             oneWayPair = []
@@ -128,7 +129,22 @@ def ucs(pairComfort, initialPerson, numOfPersons):
     return seatedNames, overallComfortValue
 
 if __name__ == "__main__":
-    pairComforts = getPairComforts(5)
+    while True:
+        print("Please enter the number of persons to be seated. Minimum number of persons is 4 and maximum number of persons is 52.")
+        print("Type 'exit' to quit.\n")
+        i = input()
+        try:
+            if i == 'exit':
+                sys.exit(0)
+            numOfPersons = int(i)
+            if numOfPersons > 52 or numOfPersons < 4:
+                print('Minimum number of persons is 4 and maximum number of persons is 52.\n')
+                continue
+            break
+        except ValueError:
+            print('\nYou did not enter a valid integer\n')
+
+    pairComforts = getPairComforts(numOfPersons)
     print(pairComforts)
     print()
     bestSeatings = findSeatingArrangements(pairComforts)
