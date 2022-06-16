@@ -54,7 +54,7 @@ def findSeatingArrangements(pairComfort):
 
     return bestSeating
 
-def generateComfortMatrix(numOfPersons):
+def getOneWayComfortMatrix(numOfPersons):
     oneWayPairComforts = []
     personNames = string.ascii_uppercase
     for i in range(numOfPersons):
@@ -68,6 +68,21 @@ def generateComfortMatrix(numOfPersons):
             oneWayPairComforts.append(oneWayPair)
 
     return oneWayPairComforts
+
+def getPairComforts(numOfPersons):
+    oneWayPairComforts = getOneWayComfortMatrix(numOfPersons)
+    pairComforts = []
+    availableComparisons = oneWayPairComforts[:]
+    for [a, b, c] in oneWayPairComforts:
+        for [x, y, z] in availableComparisons:
+            if a == y and b == x:
+                pairComfort = [a, b, c + z]
+                pairComforts.append(pairComfort)
+                availableComparisons.remove([a, b, c])
+                availableComparisons.remove([x, y, z])
+                break
+    
+    return pairComforts
 
 def ucs(pairComfort, initialPerson, numOfPersons):
     frontier = []
@@ -90,10 +105,10 @@ def ucs(pairComfort, initialPerson, numOfPersons):
             else:
                 frontier.append(child)
 
-        print("Seated:", [e.name for e in seated])
-        print("Frontier:", [f.name for f in frontier])
-        print("Children:", [c.name for c in children])
-        print("")
+        # print("Seated:", [e.name for e in seated])
+        # print("Frontier:", [f.name for f in frontier])
+        # print("Children:", [c.name for c in children])
+        # print("")
 
     overallComfortValue = seated[-1].summedComfortVal + getCost(
         pairComfort, initialPerson, seated[-1].name
@@ -104,21 +119,9 @@ def ucs(pairComfort, initialPerson, numOfPersons):
     return seatedNames, overallComfortValue
 
 if __name__ == "__main__":
-    pairComfort = [
-        ["a", "b", 3],
-        ["a", "c", -1],
-        ["a", "d", -2],
-        ["a", "e", 5],
-        ["b", "c", -2],
-        ["b", "d", 1],
-        ["b", "e", -4],
-        ["c", "d", -1],
-        ["c", "e", -5],
-        ["d", "e", 5],
-    ]
+    pairComforts = getPairComforts(5)
+    print(pairComforts)
+    print()
+    bestSeating = findSeatingArrangements(pairComforts)
 
-    bestSeating = findSeatingArrangements(pairComfort)
-
-    print(f'Optimal Arrangement: {bestSeating}')
-
-print(generateComfortMatrix(12))
+    print(f'Optimal Arrangement(s): {bestSeating}')
