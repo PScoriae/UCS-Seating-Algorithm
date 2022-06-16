@@ -84,6 +84,15 @@ def getPairComforts(numOfPersons):
     
     return pairComforts
 
+def formatArrangments(seatingArrangments):
+    formattedSeatingArrangments = []
+    for [arrangement, overallComfortValue] in seatingArrangments:
+        formattedArrangement = ' -> '.join(arrangement)
+        formattedSeatingArrangments.append([formattedArrangement, overallComfortValue])
+
+    return formattedSeatingArrangments
+
+
 def ucs(pairComfort, initialPerson, numOfPersons):
     frontier = []
     seated = []
@@ -122,6 +131,9 @@ if __name__ == "__main__":
     pairComforts = getPairComforts(5)
     print(pairComforts)
     print()
-    bestSeating = findSeatingArrangements(pairComforts)
+    bestSeatings = findSeatingArrangements(pairComforts)
+    formattedBestSeatings = formatArrangments(bestSeatings)
 
-    print(f'Optimal Arrangement(s): {bestSeating}')
+    for formattedBestSeating in formattedBestSeatings:
+        print(f'Optimal Arrangement: {formattedBestSeating[0]}')
+        print(f'Overall Comfort Value: {formattedBestSeating[1]}\n')
