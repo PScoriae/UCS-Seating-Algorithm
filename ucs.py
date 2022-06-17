@@ -73,8 +73,7 @@ def getOneWayComfortMatrix(numOfPersons):
 
     return oneWayPairComforts
 
-def getPairComforts(numOfPersons):
-    oneWayPairComforts = getOneWayComfortMatrix(numOfPersons)
+def getPairComforts(oneWayPairComforts):
     pairComforts = []
     availableComparisons = oneWayPairComforts[:]
     for [a, b, c] in oneWayPairComforts:
@@ -96,6 +95,13 @@ def formatArrangements(seatingArrangments):
 
     return formattedSeatingArrangments
 
+def formatOneWayPairComforts(oneWayPairComforts):
+    formattedOneWayPairComforts = []
+    for [a, b, c] in oneWayPairComforts:
+        formattedPairing = ' -> '.join([a, b])
+        formattedOneWayPairComforts.append([formattedPairing, c])
+    
+    return formattedOneWayPairComforts
 
 def ucs(pairComfort, initialPerson, numOfPersons):
     frontier = []
@@ -147,15 +153,19 @@ if __name__ == "__main__":
         except ValueError:
             print('\nYou did not enter a valid integer\n')
 
-    pairComforts = getPairComforts(numOfPersons)
-    print(pairComforts)
-    print()
+    oneWayPairComforts = getOneWayComfortMatrix(numOfPersons)
+    pairComforts = getPairComforts(oneWayPairComforts)
+    formattedOneWayPairComforts = formatOneWayPairComforts(oneWayPairComforts)
     startTime = time.time()
     bestSeatings, actions = findSeatingArrangements(pairComforts)
     endTime = time.time()
     duration = endTime-startTime
     formattedBestSeatings = formatArrangements(bestSeatings)
 
+    print('One Way Comfort Values:')
+    for [pair, value] in formattedOneWayPairComforts:
+        print(f'{pair}: {value}')
+    print()
     for formattedBestSeating in formattedBestSeatings:
         print(f'Optimal Arrangement: {formattedBestSeating[0]}')
         print(f'Overall Comfort Value: {formattedBestSeating[1]}\n')
