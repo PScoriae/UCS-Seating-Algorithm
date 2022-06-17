@@ -53,7 +53,9 @@ def findSeatingArrangements(pairComfort):
         if possibleSeating[0][1] == b:
             bestSeating.append([a, b])
 
-    return bestSeating
+    actions = (len(possibleSeating) - 1) * len(possibleSeating)
+
+    return bestSeating, actions
 
 def getOneWayComfortMatrix(numOfPersons):
     oneWayPairComforts = []
@@ -147,9 +149,10 @@ if __name__ == "__main__":
     pairComforts = getPairComforts(numOfPersons)
     print(pairComforts)
     print()
-    bestSeatings = findSeatingArrangements(pairComforts)
+    bestSeatings, actions = findSeatingArrangements(pairComforts)
     formattedBestSeatings = formatArrangments(bestSeatings)
 
     for formattedBestSeating in formattedBestSeatings:
         print(f'Optimal Arrangement: {formattedBestSeating[0]}')
         print(f'Overall Comfort Value: {formattedBestSeating[1]}\n')
+    print(f'Number of Actions Taken: {actions}')
