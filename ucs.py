@@ -2,6 +2,7 @@ import string
 import random
 import sys
 import time
+import os
 
 class Person:
     def __init__(self, name, parent, summedComfortVal):
@@ -95,7 +96,7 @@ def formatArrangements(seatingArrangments):
 
     return formattedSeatingArrangments
 
-def formatOneWayPairComforts(oneWayPairComforts):
+def formatPairComforts(oneWayPairComforts):
     formattedOneWayPairComforts = []
     for [a, b, c] in oneWayPairComforts:
         formattedPairing = ' -> '.join([a, b])
@@ -154,8 +155,9 @@ if __name__ == "__main__":
             print('\nYou did not enter a valid integer\n')
 
     oneWayPairComforts = getOneWayComfortMatrix(numOfPersons)
+    formattedOneWayPairComforts = formatPairComforts(oneWayPairComforts)
     pairComforts = getPairComforts(oneWayPairComforts)
-    formattedOneWayPairComforts = formatOneWayPairComforts(oneWayPairComforts)
+    formattedTwoWayPairComforts = formatPairComforts(pairComforts)
     startTime = time.time()
     bestSeatings, actions = findSeatingArrangements(pairComforts)
     endTime = time.time()
@@ -165,7 +167,18 @@ if __name__ == "__main__":
     print('One Way Comfort Values:')
     for [pair, value] in formattedOneWayPairComforts:
         print(f'{pair}: {value}')
-    print()
+    print('\nPress any key to continue')
+    input()
+    os.system('cls||clear\n')
+
+    print('Two Way Pair Comforts: ')
+    for [pair, value] in formattedTwoWayPairComforts:
+        print(f'{pair}: {value}')
+    print('\nPress any key to continue')
+    input()
+    os.system('cls||clear')
+
+    print('All Optimal Arrangements:\n')
     for formattedBestSeating in formattedBestSeatings:
         print(f'Optimal Arrangement: {formattedBestSeating[0]}')
         print(f'Overall Comfort Value: {formattedBestSeating[1]}\n')
