@@ -88,7 +88,7 @@ def getPairComforts(numOfPersons):
     
     return pairComforts
 
-def formatArrangments(seatingArrangments):
+def formatArrangements(seatingArrangments):
     formattedSeatingArrangments = []
     for [arrangement, overallComfortValue] in seatingArrangments:
         formattedArrangement = ' -> '.join(arrangement)
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     bestSeatings, actions = findSeatingArrangements(pairComforts)
     endTime = time.time()
     duration = endTime-startTime
-    formattedBestSeatings = formatArrangments(bestSeatings)
+    formattedBestSeatings = formatArrangements(bestSeatings)
 
     for formattedBestSeating in formattedBestSeatings:
         print(f'Optimal Arrangement: {formattedBestSeating[0]}')
