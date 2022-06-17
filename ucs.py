@@ -1,6 +1,7 @@
 import string
 import random
 import sys
+import time
 
 class Person:
     def __init__(self, name, parent, summedComfortVal):
@@ -149,10 +150,14 @@ if __name__ == "__main__":
     pairComforts = getPairComforts(numOfPersons)
     print(pairComforts)
     print()
+    startTime = time.time()
     bestSeatings, actions = findSeatingArrangements(pairComforts)
+    endTime = time.time()
+    duration = endTime-startTime
     formattedBestSeatings = formatArrangments(bestSeatings)
 
     for formattedBestSeating in formattedBestSeatings:
         print(f'Optimal Arrangement: {formattedBestSeating[0]}')
         print(f'Overall Comfort Value: {formattedBestSeating[1]}\n')
     print(f'Number of Actions Taken: {actions}')
+    print(f'Time Taken: {duration}s')
