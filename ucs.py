@@ -10,6 +10,7 @@ class Person:
         self.parent = parent
         self.summedComfortVal = summedComfortVal
 
+# returns the possible children for a particular person given the pairComfort matrix
 def getChildren(pairComfort, currentPerson):
     children = []
     for [m, n, c] in pairComfort:
@@ -23,11 +24,13 @@ def getChildren(pairComfort, currentPerson):
             )
     return children
 
-def getCost(pairComfort, name0, name1):
+# returns the comfort value of a pairing based on the pairComfort matrix
+def getComfortValue(pairComfort, name0, name1):
     for [m, n, c] in pairComfort:
         if [name0, name1] == [m, n] or [name1, name0] == [m, n]:
             return c
 
+# returns a list of all unique persons based on pairComfort
 def getPersons(pairComfort):
     persons = []
     for [name0, name1, c] in pairComfort:
@@ -40,6 +43,8 @@ def getPersons(pairComfort):
 
     return persons
 
+# returns a list of the best seatingArrangements and their respective overallComfortValue
+# calls ucs function for each unique person in the list of persons to be seated
 def findSeatingArrangements(pairComfort):
     possibleSeating = []
     bestSeating = []
@@ -59,6 +64,7 @@ def findSeatingArrangements(pairComfort):
 
     return bestSeating, actions
 
+# returns a matrix of randomised comfortValues for a set of persons based on the number of persons desired
 def getOneWayComfortMatrix(numOfPersons):
     oneWayPairComforts = []
     personNames = string.ascii_letters
@@ -74,6 +80,7 @@ def getOneWayComfortMatrix(numOfPersons):
 
     return oneWayPairComforts
 
+# returns two way comfort values based on a one way pair comfort matrix
 def getPairComforts(oneWayPairComforts):
     pairComforts = []
     availableComparisons = oneWayPairComforts[:]
@@ -88,6 +95,7 @@ def getPairComforts(oneWayPairComforts):
     
     return pairComforts
 
+# formats seating arrangments into a more easily readable string
 def formatArrangements(seatingArrangments):
     formattedSeatingArrangments = []
     for [arrangement, overallComfortValue] in seatingArrangments:
@@ -96,6 +104,7 @@ def formatArrangements(seatingArrangments):
 
     return formattedSeatingArrangments
 
+# formats one way pair comforts into a more easily readable string
 def formatPairComforts(oneWayPairComforts):
     formattedOneWayPairComforts = []
     for [a, b, c] in oneWayPairComforts:
@@ -104,6 +113,11 @@ def formatPairComforts(oneWayPairComforts):
     
     return formattedOneWayPairComforts
 
+# UCS algorithm
+# no specific goal state
+# the goal is to choose the highest comfort value at each expansion
+# and seat all persons
+# prioritises highest cost/comfort value, not lowest
 def ucs(pairComfort, initialPerson, numOfPersons):
     frontier = []
     seated = []
@@ -120,12 +134,13 @@ def ucs(pairComfort, initialPerson, numOfPersons):
         frontier = []
 
         for child in children:
+            # does not consider persons who have already been seated
             if child.name in [s.name for s in seated]:
                 continue
             else:
                 frontier.append(child)
 
-    overallComfortValue = seated[-1].summedComfortVal + getCost(
+    overallComfortValue = seated[-1].summedComfortVal + getComfortValue(
         pairComfort, initialPerson, seated[-1].name
     )
 
@@ -134,6 +149,8 @@ def ucs(pairComfort, initialPerson, numOfPersons):
     return seatedNames, overallComfortValue
 
 if __name__ == "__main__":
+    # user input loop
+    # verifies if input is valid
     while True:
         print("Please enter the number of persons to be seated. Minimum number of persons is 4 and maximum number of persons is 52.")
         print("Type 'exit' to quit.\n")
@@ -149,16 +166,18 @@ if __name__ == "__main__":
         except ValueError:
             print('\nYou did not enter a valid integer\n')
 
+    # program flow
     oneWayPairComforts = getOneWayComfortMatrix(numOfPersons)
     formattedOneWayPairComforts = formatPairComforts(oneWayPairComforts)
     pairComforts = getPairComforts(oneWayPairComforts)
     formattedTwoWayPairComforts = formatPairComforts(pairComforts)
-    startTimeMs = time.time()*1000
+    startTimeMs = time.time()*1000 # used to determine time taken
     bestSeatings, actions = findSeatingArrangements(pairComforts)
-    endTimeMs = time.time()*1000
+    endTimeMs = time.time()*1000 # used to determine time taken
     duration = round(endTimeMs - startTimeMs, 5)
     formattedBestSeatings = formatArrangements(bestSeatings)
 
+    # formatting for printing to console
     print('One Way Comfort Values:')
     for [pair, value] in formattedOneWayPairComforts:
         print(f'{pair}: {value}')
