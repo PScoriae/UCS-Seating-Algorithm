@@ -198,3 +198,4 @@ if __name__ == "__main__":
         print(f'Overall Comfort Value: {formattedBestSeating[1]}\n')
     print(f'Number of Actions Taken: {actions}')
     print(f'UCS Time Taken: {duration}ms')
+    
