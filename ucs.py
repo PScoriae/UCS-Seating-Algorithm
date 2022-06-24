@@ -125,11 +125,6 @@ def ucs(pairComfort, initialPerson, numOfPersons):
             else:
                 frontier.append(child)
 
-        # print("Seated:", [e.name for e in seated])
-        # print("Frontier:", [f.name for f in frontier])
-        # print("Children:", [c.name for c in children])
-        # print("")
-
     overallComfortValue = seated[-1].summedComfortVal + getCost(
         pairComfort, initialPerson, seated[-1].name
     )
@@ -167,14 +162,14 @@ if __name__ == "__main__":
     print('One Way Comfort Values:')
     for [pair, value] in formattedOneWayPairComforts:
         print(f'{pair}: {value}')
-    print('\nPress any key to continue')
+    print('\nPress any key to show Two Way Pair Comforts')
     input()
     os.system('cls||clear\n')
 
     print('Two Way Pair Comforts: ')
     for [pair, value] in formattedTwoWayPairComforts:
         print(f'{pair}: {value}')
-    print('\nPress any key to continue')
+    print('\nPress any key to show All Optimal Arrangements')
     input()
     os.system('cls||clear')
 
