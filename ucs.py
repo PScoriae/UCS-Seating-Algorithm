@@ -153,10 +153,10 @@ if __name__ == "__main__":
     formattedOneWayPairComforts = formatPairComforts(oneWayPairComforts)
     pairComforts = getPairComforts(oneWayPairComforts)
     formattedTwoWayPairComforts = formatPairComforts(pairComforts)
-    startTime = time.time()
+    startTimeMs = time.time()*1000
     bestSeatings, actions = findSeatingArrangements(pairComforts)
-    endTime = time.time()
-    duration = endTime-startTime
+    endTimeMs = time.time()*1000
+    duration = round(endTimeMs - startTimeMs, 5)
     formattedBestSeatings = formatArrangements(bestSeatings)
 
     print('One Way Comfort Values:')
@@ -178,4 +178,4 @@ if __name__ == "__main__":
         print(f'Optimal Arrangement: {formattedBestSeating[0]}')
         print(f'Overall Comfort Value: {formattedBestSeating[1]}\n')
     print(f'Number of Actions Taken: {actions}')
-    print(f'Time Taken: {duration}s')
+    print(f'UCS Time Taken: {duration}ms')
