@@ -49,6 +49,7 @@ Finally, run the following command:
 # Program Flow
 
 1. Program starts.
+
 2. At the prompt, enter the number of people you would like to seat or arrange.
 
 3. The program will then create a **one way comfort value** matrix by assigning a randomised integer to each person where 5 is the most comfortable and -5 is the least comfortable.
