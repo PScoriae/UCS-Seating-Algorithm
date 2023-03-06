@@ -16,7 +16,7 @@
 
 # About
 
-An Python3 CLI implementation of the Uniform Cost Search (UCS) algorithm.
+A Python3 CLI implementation of the Uniform Cost Search (UCS) algorithm.
 
 The objective of this modified UCS is to find solutions to the table seating problem to position participants in the most optimal arrangement in a round table with the highest overall comfortability score. Comfortability score is determined by the affinity of people seated beside each other.
 
